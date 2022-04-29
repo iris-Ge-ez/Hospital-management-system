@@ -45,13 +45,13 @@ CUSTOM_APPS = [
 ]
 
 INSTALLED_MODULES = [
-
+    'allauth',
 ]
 
 INSTALLED_APPS += CUSTOM_APPS
 INSTALLED_APPS += INSTALLED_MODULES
 
-AUTH_USER_MODEL = 'auser.Profile'
+AUTH_USER_MODEL = 'auser.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,13 +87,24 @@ WSGI_APPLICATION = 'HMS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# connect to mysql database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hms',
+        'USER': 'iris',
+        'PASSWORD': 'Yon@3246',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

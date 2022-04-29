@@ -4,22 +4,23 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-class Profile(AbstractUser):
-    
+class User(AbstractUser):
+    """User model."""
     class Types(models.TextChoices):
         DOCTOR = 'DR', _('Doctor')
         NURSE = 'NU', _('Nurse')
-        SPECIALIST = 'SP', _('Specialist')
         PATIENT = 'PA', _('Patient')
         LABORATORIST = 'LAB', _('LaboratorIST')
         RECEPTIONIST = 'RT', _('Receptionist')
         ADMIN = 'AD', _('Admin')
         DIRECTOR = 'DI', _('Director')
         PHARMACIST = 'PH', _('Pharmacist')
+
     base_type = Types.PATIENT
     type = models.CharField(_('Type'), choices=Types.choices, max_length=50)
     def get_absolute_url(self):
-        return reverse('profile', kwargs={'username': self.username})
+        return reverse('User', kwargs={'username': self.username})
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.type = self.base_type
@@ -27,43 +28,40 @@ class Profile(AbstractUser):
 
 class DoctorManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.DOCTOR)
+        return super().get_queryset().filter(type=User.Types.DOCTOR)
     
 class NurseManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.NURSE)
-
-class SpecialistManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.SPECIALIST)    
+        return super().get_queryset().filter(type=User.Types.NURSE)
 
 class PatientManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.PATIENT)
+        return super().get_queryset().filter(type=User.Types.PATIENT)
 
 class LabManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.LABORATORIST)
+        return super().get_queryset().filter(type=User.Types.LABORATORIST)
 
 class ReceptionistManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.RECEPTIONIST)
+        return super().get_queryset().filter(type=User.Types.RECEPTIONIST)
 
 class AdminManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.ADMIN)
+        return super().get_queryset().filter(type=User.Types.ADMIN)
 
 class DirectorManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.DIRECTOR)
+        return super().get_queryset().filter(type=User.Types.DIRECTOR)
 
 class PharmacistManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=Profile.Types.PHARMACIST)
+        return super().get_queryset().filter(type=User.Types.PHARMACIST)
 
 
-class Doctor(Profile):
+class Doctor(User):
     objects = DoctorManager()
+    base_type = User.Types.DOCTOR
 
     @property
     def more(self):
@@ -72,14 +70,11 @@ class Doctor(Profile):
     class Meta:
         proxy = True
     
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.DOCTOR
-        super().save(*args, **kwargs)
 
-class Nurse(Profile):
+class Nurse(User):
+    base_type = User.Types.NURSE
     objects = NurseManager()
-
+    
     @property
     def more(self):
         return self.nursemore
@@ -87,29 +82,10 @@ class Nurse(Profile):
 
     class Meta:
         proxy = True
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.NURSE
-        super().save(*args, **kwargs)
-
-class Specialist(Profile):
-    objects = SpecialistManager()
-
-    @property
-    def more(self):
-        return self.specialistmore
-
-    class Meta:
-        proxy = True
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.SPECIALIST
-        super().save(*args, **kwargs)
 
 
-class Patient(Profile):
+class Patient(User):
+    base_type = User.Types.PATIENT
     objects = PatientManager()
 
     @property
@@ -118,14 +94,10 @@ class Patient(Profile):
 
     class Meta:
         proxy = True
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.PATIENT
-        super().save(*args, **kwargs)
 
 
-class Laboratorist(Profile):
+class Laboratorist(User):
+    base_type = User.Types.LABORATORIST
     objects = LabManager()
 
     @property
@@ -134,14 +106,11 @@ class Laboratorist(Profile):
 
     class Meta:
         proxy = True
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.LABORATORIST
-        super().save(*args, **kwargs)
 
 
-class Receptionist(Profile):
+
+class Receptionist(User):
+    base_type = User.Types.RECEPTIONIST
     objects = ReceptionistManager()
 
     @property
@@ -150,14 +119,10 @@ class Receptionist(Profile):
 
     class Meta:
         proxy = True
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.RECEPTIONIST
-        super().save(*args, **kwargs)
 
 
-class Admin(Profile):
+class Admin(User):
+    base_type = User.Types.ADMIN
     objects = AdminManager()
 
     @property
@@ -167,13 +132,11 @@ class Admin(Profile):
     class Meta:
         proxy = True
     
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.ADMIN
-        super().save(*args, **kwargs)
 
 
-class Director(Profile):
+
+class Director(User):
+    base_type = User.Types.DIRECTOR
     objects = DirectorManager()
 
     @property
@@ -183,13 +146,11 @@ class Director(Profile):
     class Meta:
         proxy = True
     
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.DIRECTOR
-        super().save(*args, **kwargs)
 
 
-class Pharmacist(Profile):
+
+class Pharmacist(User):
+    base_type = User.Types.PHARMACIST
     objects = PharmacistManager()
 
     @property
@@ -199,71 +160,81 @@ class Pharmacist(Profile):
     class Meta:
         proxy = True
     
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = Profile.Types.PHARMACIST
-        super().save(*args, **kwargs)
 
 class DoctorMore(models.Model):
-    profile = models.OneToOneField(Doctor, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta: 
         verbose_name = _('Doctor More')
         verbose_name_plural = _('Doctor\'s More')
+    
+    def __str__(self) -> str:
+        return super().__str__()
 
 class NurseMore(models.Model):
-    profile = models.OneToOneField(Nurse, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Nurse More')
         verbose_name_plural = _('Nurse\'s More')
-
-class SpecialistMore(models.Model):
-    profile = models.OneToOneField(Specialist, on_delete=models.CASCADE, primary_key=True)
-
-    class Meta:
-        verbose_name = _('Specialist More')
-        verbose_name_plural = _('Specialist\'s More')
+    def __str__(self) -> str:
+        return super().__str__()
 
 class PatientMore(models.Model):
-    profile = models.OneToOneField(Patient, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Patient More')
         verbose_name_plural = _('Patient\'s More')
 
+    def __str__(self) -> str:
+        return super().__str__()
+
 class LaboratoristMore(models.Model):
-    profile = models.OneToOneField(Laboratorist, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Laboratorist More')
         verbose_name_plural = _('Laboratorist\'s More')
 
+    def __str__(self) -> str:
+        return super().__str__()
+
 class ReceptionistMore(models.Model):
-    profile = models.OneToOneField(Receptionist, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Receptionist More')
         verbose_name_plural = _('Receptionist\'s More')
 
+    def __str__(self) -> str:
+        return super().__str__()
+    
+
 class AdminMore(models.Model):
-    profile = models.OneToOneField(Admin, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Admin More')
         verbose_name_plural = _('Admin\'s More')
+    def __str__(self) -> str:
+        return super().__str__()
 
 class DirectorMore(models.Model):
-    profile = models.OneToOneField(Director, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Director More')
         verbose_name_plural = _('Director\'s More')
+    def __str__(self) -> str:
+        return super().__str__()
 
 class PharmacistMore(models.Model):
-    profile = models.OneToOneField(Pharmacist, on_delete=models.CASCADE, primary_key=True)
+    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         verbose_name = _('Pharmacist More')
         verbose_name_plural = _('Pharmacist\'s More')
+    def __str__(self) -> str:
+        return super().__str__()
 
