@@ -65,8 +65,13 @@ class LaboratoristMoreAdmin(admin.ModelAdmin):
     search_fields = ['User']
 
 
-# register doctor model
-admin.site.register(Doctor)
+@admin.register(Doctor)
+class DoctorMoreAdmin(admin.ModelAdmin):
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']
+
+
 admin.site.register(Nurse)
 admin.site.register(Patient)
 admin.site.register(Laboratorist)

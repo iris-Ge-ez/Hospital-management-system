@@ -60,7 +60,7 @@ class PharmacistManager(models.Manager):
 
 
 class Doctor(User):
-    objects = DoctorManager()
+    doctor_objects = DoctorManager()
     base_type = User.Types.DOCTOR
 
     @property
@@ -160,6 +160,8 @@ class Pharmacist(User):
 
     class Meta:
         proxy = True
+
+    
     
 
 class DoctorMore(models.Model):

@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from .models import Doctor
 
 
 User = get_user_model()
@@ -34,4 +35,5 @@ class UserCreationForm(forms.UserCreationForm):
         raise ValidationError(
             self.error_messages["duplicate_username"]
         )
+
 
