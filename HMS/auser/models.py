@@ -131,6 +131,7 @@ class Admin(User):
 
     class Meta:
         proxy = True
+        verbose_name = 'Hospital Manager'
     
 
 
@@ -215,8 +216,8 @@ class AdminMore(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
-        verbose_name = _('Admin More')
-        verbose_name_plural = _('Admin\'s More')
+        verbose_name = _('Hospital Manager More')
+        verbose_name_plural = _('Hospital Manager\'s More')
     def __str__(self) -> str:
         return super().__str__()
 
