@@ -1,3 +1,22 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(Profile)
+admin.site.register(Doctor)
+admin.site.register(Nurse)
+admin.site.register(Specialist)
+admin.site.register(Patient)
+admin.site.register(Pharmacist)
+admin.site.register(Admin)
+admin.site.register(Director)
+admin.site.register(DoctorMore)
+admin.site.register(NurseMore)
+admin.site.register(SpecialistMore)
+admin.site.register(PatientMore)
+admin.site.register(PharmacistMore)
+admin.site.register(AdminMore)
+admin.site.register(DirectorMore)
+admin.site.register(Laboratorist)
+admin.site.register(Receptionist)
+admin.site.register(LaboratoristMore)
+admin.site.register(ReceptionistMore)
