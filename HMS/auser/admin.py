@@ -71,9 +71,32 @@ class DoctorMoreAdmin(admin.ModelAdmin):
     list_filter = ['username']
     search_fields = ['username']
 
+@admin.register(Nurse)
+class NurseMoreAdmin(admin.ModelAdmin):
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']
 
-admin.site.register(Nurse)
-admin.site.register(Patient)
-admin.site.register(Laboratorist)
-admin.site.register(Receptionist)
-admin.site.register(Admin)
+@admin.register(Patient)
+class PatientMoreAdmin(admin.ModelAdmin):
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']
+
+@admin.register(Laboratorist)
+class LaboratoristMoreAdmin(admin.ModelAdmin):
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']
+
+@admin.register(Receptionist)
+class ReceptionistMoreAdmin(admin.ModelAdmin):
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']
+
+@admin.register(Admin)
+class AdminMoreAdmin(admin.ModelAdmin):
+    list_display = ['username']
+    list_filter = ['username']
+    search_fields = ['username']

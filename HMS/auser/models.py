@@ -73,7 +73,7 @@ class Doctor(User):
 
 class Nurse(User):
     base_type = User.Types.NURSE
-    objects = NurseManager()
+    doctor_objects = NurseManager()
     
     @property
     def more(self):
@@ -86,7 +86,7 @@ class Nurse(User):
 
 class Patient(User):
     base_type = User.Types.PATIENT
-    objects = PatientManager()
+    doctor_objects = PatientManager()
 
     @property
     def more(self):
@@ -98,7 +98,7 @@ class Patient(User):
 
 class Laboratorist(User):
     base_type = User.Types.LABORATORIST
-    objects = LabManager()
+    doctor_objects = LabManager()
 
     @property
     def more(self):
@@ -111,7 +111,7 @@ class Laboratorist(User):
 
 class Receptionist(User):
     base_type = User.Types.RECEPTIONIST
-    objects = ReceptionistManager()
+    doctor_objects = ReceptionistManager()
 
     @property
     def more(self):
@@ -123,7 +123,7 @@ class Receptionist(User):
 
 class Admin(User):
     base_type = User.Types.ADMIN
-    objects = AdminManager()
+    doctor_objects = AdminManager()
 
     @property
     def more(self):
@@ -138,7 +138,7 @@ class Admin(User):
 
 class Director(User):
     base_type = User.Types.DIRECTOR
-    objects = DirectorManager()
+    doctor_objects = DirectorManager()
 
     @property
     def more(self):
@@ -152,7 +152,7 @@ class Director(User):
 
 class Pharmacist(User):
     base_type = User.Types.PHARMACIST
-    objects = PharmacistManager()
+    doctor_objects = PharmacistManager()
 
     @property
     def more(self):
