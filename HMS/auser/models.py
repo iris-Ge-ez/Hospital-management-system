@@ -170,7 +170,7 @@ class DoctorMore(models.Model):
     class Meta: 
         verbose_name = _('Doctor More')
         verbose_name_plural = _('Doctor\'s More')
-    
+        
     def __str__(self) -> str:
         return super().__str__()
 

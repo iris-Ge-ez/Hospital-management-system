@@ -1,26 +1,53 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import (
     DoctorMore, Doctor,
-    Nurse, Patient,
+    Nurse,
     Laboratorist, Receptionist,
     Admin, LaboratoristMore,
     ReceptionistMore, AdminMore,
-    NurseMore, PatientMore,
+    NurseMore,
 )
+
+# import useradmin
+from django.contrib.auth.admin import UserAdmin
 
 User = get_user_model()
 
-@admin.register(User)
-class UserAdmin(auth_admin.UserAdmin):
-    form = UserChangeForm
-    add_form = UserCreationForm
-    fieldsets = (("User", {"fields": ("type",)}),) + auth_admin.UserAdmin.fieldsets
-    list_display = ["username", "is_superuser"]
-    search_fields = ["username"]
+# @admin.register(User)
+# class UserAdmin(auth_admin.UserAdmin):
+#     form = UserChangeForm
+#     add_form = UserCreationForm
+#     fieldsets = (("User", {"fields": ("type",)}),) + auth_admin.UserAdmin.fieldsets
+#     list_display = ["username", "is_superuser"]
+#     search_fields = ["username"]
+
+class CustomUserAdmin(UserAdmin):
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'type')}
+        ),
+    )    
+admin.site.register(User, CustomUserAdmin)
 
 # doctormore signup form
 @admin.register(DoctorMore)
@@ -50,12 +77,6 @@ class AdminMoreAdmin(admin.ModelAdmin):
     list_filter = ['User']
     search_fields = ['User']
 
-# patientmore signup form
-@admin.register(PatientMore)
-class PatientMoreAdmin(admin.ModelAdmin):
-    list_display = ['User']
-    list_filter = ['User']
-    search_fields = ['User']
 
 # Laboratoristmore signup form
 @admin.register(LaboratoristMore)
@@ -65,38 +86,128 @@ class LaboratoristMoreAdmin(admin.ModelAdmin):
     search_fields = ['User']
 
 
-@admin.register(Doctor)
-class DoctorMoreAdmin(admin.ModelAdmin):
-    list_display = ['username']
-    list_filter = ['username']
-    search_fields = ['username']
 
-@admin.register(Nurse)
-class NurseMoreAdmin(admin.ModelAdmin):
-    list_display = ['username']
-    list_filter = ['username']
-    search_fields = ['username']
+class ReceptionistAdmin(UserAdmin):
+    # add fields
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'email')}
+        ),
+    )
 
-@admin.register(Patient)
-class PatientMoreAdmin(admin.ModelAdmin):
-    list_display = ['username']
-    list_filter = ['username']
-    search_fields = ['username']
+class DoctorAdmin(UserAdmin):
+    # add fields
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'email')}
+        ),
+    )
 
-@admin.register(Laboratorist)
-class LaboratoristMoreAdmin(admin.ModelAdmin):
-    list_display = ['username']
-    list_filter = ['username']
-    search_fields = ['username']
+class NurseAdmin(UserAdmin):
+    # add fields
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'email')}
+        ),
+    )
 
-@admin.register(Receptionist)
-class ReceptionistMoreAdmin(admin.ModelAdmin):
-    list_display = ['username']
-    list_filter = ['username']
-    search_fields = ['username']
 
-@admin.register(Admin)
-class AdminMoreAdmin(admin.ModelAdmin):
-    list_display = ['username']
-    list_filter = ['username']
-    search_fields = ['username']
+class LaboratoristAdmin(UserAdmin):
+    # add fields
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'email')}
+        ),
+    )
+
+class AdminAdmin(UserAdmin):
+    # add fields
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'email')}
+        ),
+    )
+
+
+admin.site.register(Receptionist, ReceptionistAdmin)
+admin.site.register(Doctor, DoctorAdmin)
+admin.site.register(Nurse, NurseAdmin)
+admin.site.register(Laboratorist, LaboratoristAdmin)
+admin.site.register(Admin, AdminAdmin)
+
+
