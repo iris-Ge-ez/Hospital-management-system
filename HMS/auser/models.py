@@ -9,14 +9,13 @@ class User(AbstractUser):
     class Types(models.TextChoices):
         DOCTOR = 'DR', _('Doctor')
         NURSE = 'NU', _('Nurse')
-        PATIENT = 'PA', _('Patient')
         LABORATORIST = 'LAB', _('LaboratorIST')
         RECEPTIONIST = 'RT', _('Receptionist')
         ADMIN = 'AD', _('Admin')
         DIRECTOR = 'DI', _('Director')
         PHARMACIST = 'PH', _('Pharmacist')
 
-    base_type = Types.PATIENT
+    base_type = Types.DOCTOR
     type = models.CharField(_('Type'), choices=Types.choices, max_length=50)
     def get_absolute_url(self):
         return reverse('User', kwargs={'username': self.username})
@@ -33,10 +32,6 @@ class DoctorManager(models.Manager):
 class NurseManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(type=User.Types.NURSE)
-
-class PatientManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.PATIENT)
 
 class LabManager(models.Manager):
     def get_queryset(self):
@@ -79,18 +74,6 @@ class Nurse(User):
     def more(self):
         return self.nursemore
     
-
-    class Meta:
-        proxy = True
-
-
-class Patient(User):
-    base_type = User.Types.PATIENT
-    doctor_objects = PatientManager()
-
-    @property
-    def more(self):
-        return self.patientmore
 
     class Meta:
         proxy = True
@@ -180,16 +163,6 @@ class NurseMore(models.Model):
     class Meta:
         verbose_name = _('Nurse More')
         verbose_name_plural = _('Nurse\'s More')
-    def __str__(self) -> str:
-        return super().__str__()
-
-class PatientMore(models.Model):
-    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
-    class Meta:
-        verbose_name = _('Patient More')
-        verbose_name_plural = _('Patient\'s More')
-
     def __str__(self) -> str:
         return super().__str__()
 
