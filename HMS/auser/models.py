@@ -12,7 +12,7 @@ class User(AbstractUser):
         PATIENT = 'PA', _('Patient')
         LABORATORIST = 'LAB', _('LaboratorIST')
         RECEPTIONIST = 'RT', _('Receptionist')
-        ADMIN = 'AD', _('Admin')
+        HOSPITAL_MANAGER = 'HM', _('Hospital Manager')
         DIRECTOR = 'DI', _('Director')
         PHARMACIST = 'PH', _('Pharmacist')
 
@@ -46,9 +46,9 @@ class ReceptionistManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(type=User.Types.RECEPTIONIST)
 
-class AdminManager(models.Manager):
+class HospitalManagerManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.ADMIN)
+        return super().get_queryset().filter(type=User.Types.HOSPITAL_MANAGER)
 
 class DirectorManager(models.Manager):
     def get_queryset(self):
@@ -120,13 +120,13 @@ class Receptionist(User):
         proxy = True
 
 
-class Admin(User):
-    base_type = User.Types.ADMIN
-    doctor_objects = AdminManager()
+class HospitalManager(User):
+    base_type = User.Types.HOSPITAL_MANAGER
+    doctor_objects = HospitalManagerManager()
 
     @property
     def more(self):
-        return self.adminmore
+        return self.hospitalmanagermore
 
     class Meta:
         proxy = True
@@ -212,7 +212,7 @@ class ReceptionistMore(models.Model):
         return super().__str__()
     
 
-class AdminMore(models.Model):
+class HospitalManagerMore(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
