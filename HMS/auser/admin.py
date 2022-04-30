@@ -12,19 +12,9 @@ from .models import (
     ReceptionistMore, AdminMore,
     NurseMore,
 )
-
-# import useradmin
 from django.contrib.auth.admin import UserAdmin
 
 User = get_user_model()
-
-# @admin.register(User)
-# class UserAdmin(auth_admin.UserAdmin):
-#     form = UserChangeForm
-#     add_form = UserCreationForm
-#     fieldsets = (("User", {"fields": ("type",)}),) + auth_admin.UserAdmin.fieldsets
-#     list_display = ["username", "is_superuser"]
-#     search_fields = ["username"]
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
@@ -47,7 +37,6 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2', 'type')}
         ),
     )    
-admin.site.register(User, CustomUserAdmin)
 
 # doctormore signup form
 @admin.register(DoctorMore)
@@ -204,6 +193,7 @@ class AdminAdmin(UserAdmin):
     )
 
 
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Receptionist, ReceptionistAdmin)
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Nurse, NurseAdmin)
