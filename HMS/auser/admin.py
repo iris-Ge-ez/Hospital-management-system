@@ -5,11 +5,11 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import (
     DoctorMore, Doctor,
-    Nurse, Patient,
+    Nurse,
     Laboratorist, Receptionist,
     HospitalManager, LaboratoristMore,
     ReceptionistMore, HospitalManagerMore,
-    NurseMore, PatientMore,
+    NurseMore,
 )
 from django.contrib.auth.admin import UserAdmin
 
@@ -47,12 +47,6 @@ class DoctorMoreAdmin(admin.ModelAdmin):
 # nursemore signup form
 @admin.register(NurseMore)
 class NurseMoreAdmin(admin.ModelAdmin):
-    list_display = ['User']
-    list_filter = ['User']
-    search_fields = ['User']
-
-@admin.register(PatientMore)
-class PatientMoreAdmin(admin.ModelAdmin):
     list_display = ['User']
     list_filter = ['User']
     search_fields = ['User']
@@ -150,29 +144,6 @@ class HospitalManagerAdmin(UserAdmin):
         ),
     )
 
-class PatientAdmin(UserAdmin):
-    # add fields
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                        'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-    )
-    # add list display
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
-    # add list filter
-    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
-    # add search fields
-    search_fields = ('username', 'email', 'first_name', 'last_name')
-    # add fieldsets
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2')}
-        ),
-    )
-
 class NurseAdmin(UserAdmin):
     # add fields
     fieldsets = (
@@ -249,8 +220,9 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(Receptionist, ReceptionistAdmin)
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Nurse, NurseAdmin)
-admin.site.register(Patient, PatientAdmin)
 admin.site.register(Laboratorist, LaboratoristAdmin)
 admin.site.register(HospitalManager, HospitalManagerAdmin)
 
-
+admin.site.site_header = 'Hospital Admin'
+admin.site.site_title = 'Hospital Management Platform'
+admin.site.index_title = 'Hospital Administration'

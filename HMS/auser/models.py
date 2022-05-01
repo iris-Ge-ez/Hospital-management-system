@@ -9,8 +9,7 @@ class User(AbstractUser):
     class Types(models.TextChoices):
         DOCTOR = 'DR', _('Doctor')
         NURSE = 'NU', _('Nurse')
-        PATIENT = 'PA', _('Patient')
-        LABORATORIST = 'LAB', _('LaboratorIST')
+        LABORATORIST = 'LAB', _('Laboratorist')
         RECEPTIONIST = 'RT', _('Receptionist')
         HOSPITAL_MANAGER = 'HM', _('Hospital Manager')
         DIRECTOR = 'DI', _('Director')
@@ -33,10 +32,6 @@ class DoctorManager(models.Manager):
 class NurseManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(type=User.Types.NURSE)
-
-class PatientManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.PATIENT)
 
 class LabManager(models.Manager):
     def get_queryset(self):
@@ -62,7 +57,7 @@ class PharmacistManager(models.Manager):
 class Doctor(User):
     doctor_objects = DoctorManager()
     base_type = User.Types.DOCTOR
-
+    
     @property
     def more(self):
         return self.doctormore
@@ -78,18 +73,6 @@ class Nurse(User):
     @property
     def more(self):
         return self.nursemore
-    
-
-    class Meta:
-        proxy = True
-
-class Patient(User):
-    base_type = User.Types.PATIENT
-    doctor_objects = PatientManager()
-    
-    @property
-    def more(self):
-        return self.patientmore
     
 
     class Meta:
@@ -179,15 +162,6 @@ class NurseMore(models.Model):
     class Meta:
         verbose_name = _('Nurse More')
         verbose_name_plural = _('Nurse\'s More')
-    def __str__(self) -> str:
-        return super().__str__()
-
-class PatientMore(models.Model):
-    User = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
-    class Meta:
-        verbose_name = _('Patient More')
-        verbose_name_plural = _('Patient\'s More')
     def __str__(self) -> str:
         return super().__str__()
 
