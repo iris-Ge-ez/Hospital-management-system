@@ -8,37 +8,37 @@ class HospitalAdmin(admin.ModelAdmin):
     search_fields = ('name', 'city', 'state')
     
 class LaboratoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'state', 'hospital')
+    list_display = ('name', 'hospital')
     list_filter = ('name', 'hospital', 'address', 'city', 'state', 'phone', 'email', 'zipcode')
     search_fields = ('name', 'city', 'state')
 
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ('name')
+    list_display = ('name', 'age')
     list_filter = ('name', 'age', 'created_at', 'updated_at')
     search_fields = ('name', 'age', 'created_at', 'updated_at')
 
 class DiseaseAdmin(admin.ModelAdmin):
-    list_display = ('name')
+    list_display = ('name', 'abrreviation')
     list_filter = ('name', 'description')
-    search_fields = ('name')
+    search_fields = ('name', 'description')
 
 class MedicineAdmin(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'madein')
+    list_display = ('name', 'madein')
     list_filter = ('name', 'description', 'producer', 'brand', 'madein', 'production_date', 'expiry_date')
     search_fields = ('name', 'description', 'brand', 'madein')
 
 class DoctorDiseaseDiagnosisAdmin(admin.ModelAdmin):
-    list_display = ('patient', 'doctor', 'disease')
+    list_display = ('patient', 'disease')
     list_filter = ('patient', 'doctor', 'disease', 'diagnosis', 'created_at', 'updated_at')
     search_fields = ('patient', 'doctor', 'disease',  'created_at')
 
 class DoctorPrescribeMedicineAdmin(admin.ModelAdmin):
-    list_display = ('patient', 'doctor', 'medicine')
+    list_display = ('patient', 'medicine')
     list_filter = ('patient', 'doctor', 'medicine', 'dosage', 'duration', 'created_at', 'updated_at')
     search_fields = ('patient', 'doctor', 'medicine', 'created_at')
 
 class ReferToHospitalAdmin(admin.ModelAdmin):
-    list_display = ('patient', 'doctor', 'hospital')
+    list_display = ('patient', 'hospital')
     list_filter = ('patient', 'doctor', 'hospital', 'reason', 'created_at', 'updated_at')
     search_fields = ('patient', 'doctor', 'hospital', 'created_at')
 
@@ -49,12 +49,12 @@ class PatientAppointmentAdmin(admin.ModelAdmin):
 
 class PatientNurseVitalTrackingAdmin(admin.ModelAdmin):
     list_display = ('patient', 'nurse')
-    list_filter = ('patient', 'nurse', 'bp_systolic', 'bp_diastolic', 'heart_rate', 'temperature', 'weight', 'height', 'blood_glucose', 'blood_oxygen', 'respiratory_rate', 'bmi', 'bmi_category', 'notes', 'created_at', 'updated_at', 'created_by', 'updated_by')
+    list_filter = ('patient', 'nurse', 'bp_systolic', 'bp_diastolic', 'heart_rate', 'temperature', 'weight', 'height', 'blood_glucose', 'blood_oxygen', 'respiratory_rate', 'bmi', 'bmi_category', 'notes', 'created_at', 'updated_at')
     search_fields = ('patient', 'nurse', 'created_at')
 
 class LaboratoryResultsAdmin(admin.ModelAdmin):
     list_display = ('patient', 'laboratory')
-    list_filter = ('patient', 'laboratory', 'result', 'laboratory_technician', 'date', 'time', 'created_at', 'updated_at')
+    list_filter = ('patient', 'laboratory', 'results', 'laboratory_technician', 'date', 'time', 'created_at', 'updated_at')
     search_fields = ('patient', 'laboratory', 'date', 'time', 'created_at')
 
 class HospitalAdmissionCardAdmin(admin.ModelAdmin):
@@ -63,12 +63,12 @@ class HospitalAdmissionCardAdmin(admin.ModelAdmin):
     search_fields = ('patient', 'hospital', 'receptionist', 'created_at')
 
 class HospitalBedAdmin(admin.ModelAdmin):
-    list_display = ('patient', 'hospital', 'bed_number', 'receptionist')
+    list_display = ('patient', 'bed_number')
     list_filter = ('patient', 'hospital', 'bed_number', 'receptionist', 'created_at', 'updated_at')
     search_fields = ('name', 'hospital', 'created_at')
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('user')
+    list_display = ('user', 'created_at')
     list_filter = ('user', 'report', 'created_at', 'updated_at')
     search_fields = ('user', 'laboratory', 'created_at')
 
