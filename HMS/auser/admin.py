@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from .models import (
-    DoctorMore, Doctor,
+    Director, DoctorMore, Doctor,
     Nurse,
     Laboratorist, Receptionist,
     HospitalManager, LaboratoristMore,
@@ -97,7 +97,8 @@ class ReceptionistAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-
+    read_only = ('username', 'type')
+    
 class DoctorAdmin(UserAdmin):
     # add fields
     fieldsets = (
@@ -120,6 +121,30 @@ class DoctorAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
+    read_only = ('username', 'type')
+class DirectorAdmin(UserAdmin):
+    # add fields
+    fieldsets = (
+        (None, {'fields': ('username', 'password', 'type')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                        'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    # add list display
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add list filter
+    list_filter = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    # add search fields
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    # add fieldsets
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2')}
+        ),
+    )
+    read_only = ('username', 'type')
 
 class HospitalManagerAdmin(UserAdmin):
     # add fields
@@ -143,7 +168,7 @@ class HospitalManagerAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-
+    read_only = ('username', 'type')
 class NurseAdmin(UserAdmin):
     # add fields
     fieldsets = (
@@ -166,7 +191,7 @@ class NurseAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-
+    read_only = ('username', 'type')
 
 class LaboratoristAdmin(UserAdmin):
     # add fields
@@ -190,6 +215,7 @@ class LaboratoristAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
+    read_only = ('username', 'type')
 
 # AKA Hospital Manager
 class AdminAdmin(UserAdmin):
@@ -214,12 +240,14 @@ class AdminAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
+    read_only = ('username', 'type')
 
 
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Receptionist, ReceptionistAdmin)
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Nurse, NurseAdmin)
+admin.site.register(Director, DirectorAdmin)
 admin.site.register(Laboratorist, LaboratoristAdmin)
 admin.site.register(HospitalManager, HospitalManagerAdmin)
 
