@@ -57,6 +57,7 @@ class CustomUserChangeForm(forms.ModelForm):
     disabled password hash display field.
     """
     password = ReadOnlyPasswordHashField()
+    # password change field
 
     class Meta:
         model = User
@@ -65,7 +66,7 @@ class CustomUserChangeForm(forms.ModelForm):
 
 class CustomUserAdmin(UserAdmin):
     # The forms to add and change user instances
-    form = CustomUserChangeForm
+    # form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = User
 
@@ -91,7 +92,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username',)
     ordering = ('username',)
     filter_horizontal = (['groups',])
-
+    readonly_fields = ('username', 'type',)
 
 # doctormore signup form
 @admin.register(DoctorMore)
@@ -130,7 +131,6 @@ class LaboratoristMoreAdmin(admin.ModelAdmin):
     search_fields = ['User']
 
 class ReceptionistAdmin(UserAdmin):
-    form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = Receptionist
     # add fields
@@ -157,7 +157,6 @@ class ReceptionistAdmin(UserAdmin):
     readonly_fields = ('username','type',)
 
 class DoctorAdmin(UserAdmin):
-    form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = Doctor
     # add fields
@@ -184,6 +183,8 @@ class DoctorAdmin(UserAdmin):
     readonly_fields = ('username','type',)
 
 class DirectorAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    model = Director
     # add fields
     fieldsets = (
         (None, {'fields': ('username', 'password', 'type')}),
@@ -208,7 +209,6 @@ class DirectorAdmin(UserAdmin):
     readonly_fields = ('username','type',)
 
 class HospitalManagerAdmin(UserAdmin):
-    form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = HospitalManager
     # add fields
@@ -235,7 +235,6 @@ class HospitalManagerAdmin(UserAdmin):
     readonly_fields = ('username','type',)
 
 class NurseAdmin(UserAdmin):
-    form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = Nurse
     # add fields
@@ -263,7 +262,6 @@ class NurseAdmin(UserAdmin):
     readonly_fields = ('username','type',)
 
 class LaboratoristAdmin(UserAdmin):
-    form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = Laboratorist
     # add fields

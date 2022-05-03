@@ -12,7 +12,8 @@ from .models import User, Director, Doctor, Nurse, Receptionist, HospitalManager
 @receiver(pre_save, sender=HospitalManager)
 @receiver(pre_save, sender=Laboratorist)
 def set_username_and_password_callback(sender, instance, *args, **kwargs):
-    if User.objects.filter(username=instance.username).exists():
+    if User.objects.filter(username=instance.id).exists() or User.objects.filter(username=instance.username).exists():
+        print("pass")
         pass
     else:
         last = 0
@@ -37,6 +38,7 @@ def set_username_and_password_callback(sender, instance, *args, **kwargs):
         instance.is_staff = True
         instance.set_password(password)
         print("--username: ", new_username, "password: ", password)
+        print(new_username, password)
         # send_mail(instance.email, new_username, password)
 
 
