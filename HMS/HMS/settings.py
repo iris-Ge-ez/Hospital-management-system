@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'admin_volt.apps.AdminVoltConfig',
+    'admin_volt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
