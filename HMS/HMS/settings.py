@@ -50,7 +50,7 @@ CUSTOM_APPS = [
 ]
 
 INSTALLED_MODULES = [
-    'allauth',
+
 ]
 
 INSTALLED_APPS += CUSTOM_APPS
@@ -73,7 +73,7 @@ ROOT_URLCONF = 'HMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,6 +88,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HMS.wsgi.application'
 
+# email setup 
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.google.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -153,3 +160,4 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
