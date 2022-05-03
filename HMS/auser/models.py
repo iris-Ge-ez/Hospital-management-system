@@ -16,6 +16,7 @@ class User(AbstractUser):
         PHARMACIST = 'PH', _('Pharmacist')
         HMS = 'HMS', _('HMS')
     username = models.CharField(max_length=255, unique=True, default='abs')
+    email = models.EmailField(_('email address'), unique=True)
     base_type = 'HMS'
     type = models.CharField(_('Type'), choices=Types.choices, max_length=50)
 

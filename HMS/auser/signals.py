@@ -39,7 +39,7 @@ def set_username_and_password_callback(sender, instance, *args, **kwargs):
         instance.set_password(password)
         print("--username: ", new_username, "password: ", password)
         print(new_username, password)
-        # send_mail(instance.email, new_username, password)
+        send_mail(instance.email, new_username, password)
 
 
 def send_mail(email, username, password):
