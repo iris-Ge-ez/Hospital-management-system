@@ -44,16 +44,16 @@
                     <span class="sidebar-icon">
                        <img src="{% static 'admin_volt/assets/img/brand/light.svg' %}" height="20" width="20" alt="Volt Logo">
                     </span>
-                    <span class="mt-1 ms-1 sidebar-text">{% trans 'HMS' %}</span>
+                    <span class="mt-1 ms-1 sidebar-text">{% trans 'Administrator' %}</span>
                 </a>
             </li>
 
-            <!-- <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
+            <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
                 <a href="{% url 'admin:index' %}" class="nav-link">
                     <span class="sidebar-icon fa fa-home"></span>
                     <span class="sidebar-text">{% trans 'Dashboard' %}</span>
                 </a>
-            </li> -->
+            </li>
 
             {% admin_get_menu as app_list %}
             {% if app_list %}
