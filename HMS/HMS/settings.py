@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -49,8 +50,6 @@ CUSTOM_APPS = [
 
 INSTALLED_MODULES = [
     'allauth',
-    'grappelli',
-    'django.contrib.admin',
 ]
 
 INSTALLED_APPS += CUSTOM_APPS
