@@ -1,6 +1,6 @@
 from django.contrib import admin
 from core.models import (Hospital, Laboratory, Patient, Disease, Medicine, DoctorDiseaseDiagnosis, DoctorPrescribeMedicine, 
-                        ReferToHospital, PatientAppointment, PatientNurseVitalTracking, LaboratoryResults, HospitalAdmissionCard, HospitalBed, Report)
+                        ReferToHospital, PatientAppointment, PatientNurseVitalTracking, LaboratoryResults, HospitalAdmissionCard, HospitalBed, Report, Payment,)
 
 class HospitalAdmin(admin.ModelAdmin):
     list_display = ('name', 'state')
@@ -72,6 +72,13 @@ class ReportAdmin(admin.ModelAdmin):
     list_filter = ('user', 'report', 'created_at', 'updated_at')
     search_fields = ('user', 'laboratory', 'created_at')
 
+# register payment
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'amount')
+    list_filter = ('user', 'amount')
+    search_fields = ('user', 'payment')
+
+
 
 admin.site.register(Hospital, HospitalAdmin)
 admin.site.register(Laboratory, LaboratoryAdmin)
@@ -87,3 +94,4 @@ admin.site.register(LaboratoryResults, LaboratoryResultsAdmin)
 admin.site.register(HospitalAdmissionCard, HospitalAdmissionCardAdmin)
 admin.site.register(HospitalBed, HospitalBedAdmin)
 admin.site.register(Report, ReportAdmin)
+admin.site.register(Payment, PaymentAdmin)
