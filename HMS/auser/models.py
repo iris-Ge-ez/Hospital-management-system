@@ -14,14 +14,16 @@ class User(AbstractUser):
         HOSPITAL_MANAGER = 'HM', _('Hospital Manager')
         DIRECTOR = 'DI', _('Director')
         PHARMACIST = 'PH', _('Pharmacist')
-
-    base_type = Types.DOCTOR
+        HMS = 'HMS', _('HMS')
+    username = models.CharField(max_length=255, unique=True, default='abs')
+    base_type = 'HMS'
     type = models.CharField(_('Type'), choices=Types.choices, max_length=50)
+
     def get_absolute_url(self):
         return reverse('User', kwargs={'username': self.username})
 
     def save(self, *args, **kwargs):
-        if not self.id:
+        if not self.type:
             self.type = self.base_type
         super().save(*args, **kwargs)
 
@@ -212,4 +214,3 @@ class PharmacistMore(models.Model):
         verbose_name_plural = _('Pharmacist\'s More')
     def __str__(self) -> str:
         return super().__str__()
-

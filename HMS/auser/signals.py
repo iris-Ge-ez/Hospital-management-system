@@ -1,3 +1,4 @@
+from email.mime import base
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -16,18 +17,27 @@ def set_username_and_password_callback(sender, instance, *args, **kwargs):
     else:
         last = 0
         try:
-            last_username = int(User.objects.filter(type=instance.base_type).latest('id').username[3:])
-            last_username += 1
+            try:
+                last_username = int(User.objects.filter(type=instance.type).last().username[-3:])
+                base_type = instance.type
+            except:
+                last_username = int(User.objects.filter(type=instance.base_type).last().username[-3:])
+                base_type = instance.base_type
+            print(base_type)
         except Exception:
             last_username = 1
-        new_username = instance.base_type + '/' + str(last_username).zfill(3)
-        instance.username = new_username
-
-        
+            try:
+                base_type = instance.type
+            except:
+                base_type = instance.base_type
+        last_username += 1
+        new_username = base_type + '/' + str(last_username).zfill(3)
         password = User.objects.make_random_password()
+        instance.username = new_username
+        instance.is_staff = True
         instance.set_password(password)
-
-        send_mail(instance.email, new_username, password)
+        print("--username: ", new_username, "password: ", password)
+        # send_mail(instance.email, new_username, password)
 
 
 def send_mail(email, username, password):
