@@ -3,7 +3,6 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from .models import User, Director, Doctor, Nurse, Receptionist, HospitalManager, Laboratorist
 
-
 @receiver(pre_save, sender=User)
 @receiver(pre_save, sender=Director)
 @receiver(pre_save, sender=Doctor)
@@ -13,41 +12,28 @@ from .models import User, Director, Doctor, Nurse, Receptionist, HospitalManager
 @receiver(pre_save, sender=Laboratorist)
 def set_username_and_password_callback(sender, instance, *args, **kwargs):
     last = 0
-    if instance.base_type == 'DI':
-        try:
-            last_username = Director.objects.last().username[3:]
-        except Exception:
-            last_username = "001"
-        new_id = 0
+    try:
+        last_username = int(User.objects.filter(type=instance.base_type).latest('id').username[3:])
+        last_username += 1
+    except Exception:
+        last_username = 1
+    new_username = instance.base_type + '/' + str(last_username).zfill(3)
+    instance.username = new_username
+
+    
+    password = User.objects.make_random_password()
+    instance.set_password(password)
+
+    send_mail(instance.email, new_username, password)
 
 
+def send_mail(email, username, password):
+    from django.core.mail import send_mail
+    from django.conf import settings
 
-# password = User.objects.make_random_password()
-# user.set_password(password)
-# user.save()
-
-# def send_welcome_email(sender,instance,created, **kwargs):
-#     user= instance
-#     current_site = get_current_site(request=None)
-#     domain = current_site.domain
-#     page_url = reverse('set_password')
-#     protocol = "http"
-#     url = '{protocol}://{domain}/{page_url}'.format(protocol=protocol, domain=domain, page_url = page_url)
-
-#     subject,from_email , to = 'welcome to isow investors team', 'settings.EMAIL_HOST_USER',user.email
-#     context =  {'name':user.first_name,'new_username':user.username, 'user_email': user.email , 'url':url}
-#     text_content = render_to_string('accounts/welcome_email_template.txt',context)
-#     html_content = render_to_string('accounts/welcome_email_template.html', context)
-
-#     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-#     msg.attach_alternative(html_content, "text/html")
-#     msg.send()
-#     print("Welcome email sent to user")
-
-# post_save.connect(send_welcome_email, sender=User)
-
-
-# @receiver(pre_save)
-# def generate_password(pre_save, sender, instance, **kwargs):
-#     if not instance.id:
-#         instance.set_password(User.objects.make_random_password())
+    subject = 'New account created'
+    message = 'Your username is: ' + username + '\n' + 'Your password is: ' + password
+    from_email = settings.EMAIL_HOST_USER
+    to_list = [email]
+    send_mail(subject, message, from_email, to_list, fail_silently=False)
+    print("successfully sent to: ", email)

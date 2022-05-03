@@ -94,11 +94,11 @@ class ReceptionistAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2')}
+            'fields': ('email',)}
         ),
     )
-    read_only = ('username', 'type')
-    
+    readonly_fields = ('username','type',)
+
 class DoctorAdmin(UserAdmin):
     # add fields
     fieldsets = (
@@ -118,10 +118,11 @@ class DoctorAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2')}
+            'fields': ('email', 'password1', 'password2', 'type')}
         ),
     )
-    read_only = ('username', 'type')
+    readonly_fields = ('username','type',)
+
 class DirectorAdmin(UserAdmin):
     # add fields
     fieldsets = (
@@ -144,7 +145,7 @@ class DirectorAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-    read_only = ('username', 'type')
+    readonly_fields = ('username','type',)
 
 class HospitalManagerAdmin(UserAdmin):
     # add fields
@@ -168,7 +169,8 @@ class HospitalManagerAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-    read_only = ('username', 'type')
+    readonly_fields = ('username','type',)
+
 class NurseAdmin(UserAdmin):
     # add fields
     fieldsets = (
@@ -191,7 +193,7 @@ class NurseAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-    read_only = ('username', 'type')
+    readonly_fields = ('username','type',)
 
 class LaboratoristAdmin(UserAdmin):
     # add fields
@@ -215,7 +217,7 @@ class LaboratoristAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-    read_only = ('username', 'type')
+    readonly_fields = ('username', 'type',)
 
 # AKA Hospital Manager
 class AdminAdmin(UserAdmin):
@@ -240,7 +242,7 @@ class AdminAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2')}
         ),
     )
-    read_only = ('username', 'type')
+    readonly_fields = ('username', 'type',)
 
 
 admin.site.register(User, CustomUserAdmin)
